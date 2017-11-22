@@ -82,7 +82,7 @@ if [ ! -f $CACHE_FILE ]; then
   echo "-----> Downloading libwebp dependency"
   # copying the section above
  
-  packages=libwebp-dev_0.6.0-3_amd64.deb
+  packages=libwebp6_0.6.0-3_amd64.deb
   
   mkdir -p "$1/$install_dir"
  
