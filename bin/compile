@@ -33,7 +33,7 @@ if [ ! -f $CACHE_FILE ]; then
 
   echo "-----> Building libwebp"
   cd $LIBWEBP_DIR
-  ./configure --prefix=$INSTALL_DIR --disable-static
+  ./configure --prefix=$INSTALL_DIR
   make && make install
   cd ..
   rm -rf $LIBWEBP_DIR
@@ -77,13 +77,30 @@ if [ ! -f $CACHE_FILE ]; then
   done
   
   echo "Dependencies installed at: $1/$install_dir"
+
+  # libwebp dependency
+  echo "-----> Downloading libwebp dependency"
+  # copying the section above
+ 
+  packages=libwebp-dev_0.6.0-3_amd64.deb
+  
+  mkdir -p "$1/$install_dir"
+ 
+  base_url="http://archive.ubuntu.com/ubuntu/pool/main/libw/libwebp/"
+  echo "Installing the following packages:"
+  for p in "${packages[@]}"; do
+   echo "    * $p"
+   install "$base_url/$p" "$1/$install_dir"
+  done
+  
+  echo "Dependencies installed at: $1/$install_dir"
   
 
   echo "-----> Building ImageMagick"
   cd $IMAGE_MAGICK_DIR
   export CPPFLAGS="-I$INSTALL_DIR/include"
   export LDFLAGS="-L$INSTALL_DIR/lib"
-  ./configure --prefix=$INSTALL_DIR --with-webp
+  ./configure --prefix=$INSTALL_DIR --with-webp=yes
   make && make install
   cd ..
   rm -rf $IMAGE_MAGICK_DIR
