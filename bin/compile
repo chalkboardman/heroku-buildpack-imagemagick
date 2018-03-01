@@ -102,13 +102,21 @@ EOF
 
 # update PATH and LD_LIBRARY_PATH
 echo "-----> Updating environment variables"
+echo "HOME: $HOME"
 PROFILE_PATH="$BUILD_DIR/.profile.d/imagemagick.sh"
 ACTUAL_INSTALL_PATH="$HOME/vendor/imagemagick"
 DEPENDENCY_INSTALL_PATH="$HOME/heroku-buildpack-imagemagick/usr/lib"
+echo "actual install path: $ACTUAL_INSTALL_PATH"
+echo "the actual path: /tmp/build/vendor/imagemagick/lib"
 mkdir -p $(dirname $PROFILE_PATH)
 echo "export PATH=$ACTUAL_INSTALL_PATH/bin:\$PATH" >> $PROFILE_PATH
 echo "export LD_LIBRARY_PATH=$DEPENDENCY_INSTALL_PATH:\$ACTUAL_INSTALL_PATH/lib:\$LD_LIBRARY_PATH" >> $PROFILE_PATH
 echo "export MAGICK_CONFIGURE_PATH=$ACTUAL_INSTALL_PATH" >> $PROFILE_PATH
+echo "ld libary path: $LD_LIBRARY_PATH"
+
+export PATH="$ACTUAL_INSTALL_PATH/bin:$PATH"
+export LD_LIBRARY_PATH="$DEPENDENCY_INSTALL_PATH:$ACTUAL_INSTALL_PATH/lib:$LD_LIBRARY_PATH"
+export MAGICK_CONFIGURE_PATH="$ACTUAL_INSTALL_PATH"
 
 # DOWNLOAD_URL="http://www.imagemagick.org/download/ImageMagick-6.9.2-0.tar.gz"
 
